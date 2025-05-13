@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5a67d8">
+  <meta name="description" content="Comprehensive resources and support for India's deaf and hard-of-hearing community">
+  <title>Help Center | Sign Language Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --secondary: #6366f1;
+      --accent: #7c3aed;
+      --highlight: #8b5cf6;
+      --light: #f9fafb;
+      --dark: #111827;
+      --card-bg: rgba(255, 255, 255, 0.12);
+      --card-hover-bg: rgba(255, 255, 255, 0.18);
+      --glass-effect: rgba(255, 255, 255, 0.08);
+      --text-light: rgba(255, 255, 255, 0.98);
+      --text-lighter: rgba(255, 255, 255, 0.75);
+      --sidebar-width: 300px;
+      --help-color: #ef4444;
+      --law-color: #3b82f6;
+      --ngo-color: #06b6d4;
+      --edu-color: #8b5cf6;
+      --emergency-color: #f43f5e;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --radius-sm: 0.25rem;
+      --radius: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+    }
+    
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: var(--text-light);
+      font-family: 'Inter', 'Poppins', sans-serif;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Enhanced Floating Shapes */
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      animation: float 15s infinite ease-in-out;
+      filter: blur(40px);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(10%, 15%) rotate(5deg); }
+      50% { transform: translate(5%, 10%) rotate(-5deg); }
+      75% { transform: translate(15%, 5%) rotate(5deg); }
+    }
+    
+    /* Enhanced Glass Card */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .glass-card:hover {
+      background: var(--card-hover-bg);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Enhanced Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      z-index: 10;
+      position: fixed;
+      height: 100vh;
+    }
+    
+    .user-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-bottom: 1.5rem;
+      object-fit: cover;
+      border: 3px solid rgba(255, 255, 255, 0.15);
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+    }
+    
+    .sidebar:hover .user-avatar {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      margin-left: var(--sidebar-width);
+      position: relative;
+      overflow-y: auto;
+    }
+    
+    /* Enhanced Header */
+    header {
+      margin-bottom: 3rem;
+      text-align: center;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+    
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(90deg, #fff, var(--highlight), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 300% 300%;
+      animation: gradientText 8s ease infinite;
+      line-height: 1.2;
+    }
+    
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    header p {
+      font-size: 1.1rem;
+      color: var(--text-lighter);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    /* Enhanced Search */
+    .search-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      position: relative;
+      width: 100%;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 1.2rem 2rem;
+      padding-right: 60px;
+      border-radius: var(--radius-xl);
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+    
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 400;
+    }
+    
+    .search-btn {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      background: linear-gradient(135deg, var(--highlight), var(--accent));
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+    
+    .search-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+    }
+    
+    /* Enhanced Quick Links */
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1.5rem auto;
+      max-width: 800px;
+      justify-content: center;
+    }
+    
+    .quick-link {
+      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+    
+    .quick-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .quick-link i {
+      font-size: 1.1rem;
+    }
+    
+    /* Enhanced Tabs */
+    .tab-container {
+      display: flex;
+      gap: 0.5rem;
+      margin: 2.5rem auto 1.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem;
+      border-radius: var(--radius-xl);
+      max-width: max-content;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .tab-btn {
+      padding: 0.8rem 1.8rem;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-xl);
+      color: var(--text-lighter);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tab-btn.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .tab-btn:hover:not(.active) {
+      color: white;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    /* Section Titles */
+    .section-title {
+      font-size: 2.2rem;
+      margin: 3.5rem 0 2rem;
+      position: relative;
+      padding-bottom: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--highlight), transparent);
+      border-radius: 2px;
+    }
+    
+    /* Resource Grid */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    /* Enhanced Cards */
+    .card {
+      padding: 2rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .card h3 i {
+      font-size: 1.6rem;
+    }
+    
+    .card p {
+      color: var(--text-lighter);
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    
+    .card ul {
+      margin: 1.2rem 0 1.5rem 1.8rem;
+    }
+    
+    .card ul li {
+      margin-bottom: 0.6rem;
+      position: relative;
+    }
+    
+    .card ul li::before {
+      content: '•';
+      color: var(--highlight);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    
+    /* Category Cards */
+    .law-card {
+      border-left: 4px solid var(--law-color);
+    }
+    
+    .ngo-card {
+      border-left: 4px solid var(--ngo-color);
+    }
+    
+    .emergency-card {
+      border-left: 4px solid var(--emergency-color);
+    }
+    
+    .edu-card {
+      border-left: 4px solid var(--edu-color);
+    }
+    
+    /* Status Badges */
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    .badge-new {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success-color);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    
+    .badge-hot {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--emergency-color);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+    
+    /* Action Buttons */
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-xl);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 0.5rem;
+    }
+    
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .action-btn i {
+      transition: transform 0.3s ease;
+    }
+    
+    .action-btn:hover i {
+      transform: translateX(3px);
+    }
+    
+    /* Video Container */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      margin: 3rem 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* Enhanced State Selector */
+    .state-selector {
+      margin: 2rem auto;
+      max-width: 500px;
+      position: relative;
+    }
+    
+    .state-selector::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-xl);
+      z-index: -1;
+      transition: var(--transition);
+    }
+    
+    .state-selector:hover::before {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .state-selector label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      font-size: 1.1rem;
+      color: white;
+    }
+    
+    .state-selector select {
+      width: 100%;
+      padding: 1.2rem 2rem;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 1rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1.5rem center;
+      background-size: 1rem;
+      transition: var(--transition);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    /* Make dropdown options black */
+    .state-selector select option {
+      color: black;
+      background: white;
+    }
+    
+    .state-selector select:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+    }
+    
+    /* Selected State Display */
+    .selected-state-display {
+      display: none;
+      margin-top: 2rem;
+      text-align: center;
+      animation: floatIn 0.6s ease-out forwards;
+    }
+    
+    .selected-state-display.active {
+      display: block;
+    }
+    
+    .selected-state-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .selected-state-icon {
+      font-size: 2rem;
+      color: var(--highlight);
+    }
+    
+    /* Back Button Styles */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-xl);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 1rem 0;
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+    
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .back-btn i {
+      transition: transform 0.3s ease;
+    }
+    
+    .back-btn:hover i {
+      transform: translateX(-3px);
+    }
+    
+    /* Enhanced Floating Help Button */
+    .floating-help-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--help-color), #f87171);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .floating-help-btn:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+    }
+    
+    .dark-mode-toggle:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animations */
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .main-content > * {
+      animation: floatIn 0.6s ease-out forwards;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .resource-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+    
+    @media (max-width: 992px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.5rem;
+        align-items: center;
+        height: auto;
+        position: relative;
+      }
+      
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0;
+      }
+      
+      .main-content {
+        padding-top: 1rem;
+        margin-left: 0;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .tab-container {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .tab-btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      .search-input {
+        padding: 1rem 1.5rem;
+        padding-right: 50px;
+      }
+      
+      .search-btn {
+        width: 42px;
+        height: 42px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .resource-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    /* Dark Mode Styles */
+    body.dark-mode {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --secondary: #4f46e5;
+      --accent: #6d28d9;
+      --highlight: #7c3aed;
+      --light: #1f2937;
+      --dark: #f9fafb;
+      --card-bg: rgba(0, 0, 0, 0.3);
+      --card-hover-bg: rgba(0, 0, 0, 0.4);
+      --text-light: rgba(255, 255, 255, 0.95);
+      --text-lighter: rgba(255, 255, 255, 0.7);
+      background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+    }
+    
+    body.dark-mode .glass-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    body.dark-mode .search-input {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    body.dark-mode .search-input:focus {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    body.dark-mode .quick-link {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    body.dark-mode .quick-link:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    body.dark-mode .tab-container {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    body.dark-mode .tab-btn.active {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    body.dark-mode .tab-btn:hover:not(.active) {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Shapes Background -->
+  <div class="floating-shapes">
+    <div class="shape" style="width: 200px; height: 200px; top: 10%; left: 5%; animation-duration: 20s;"></div>
+    <div class="shape" style="width: 150px; height: 150px; top: 70%; left: 80%; animation-duration: 15s;"></div>
+    <div class="shape" style="width: 250px; height: 250px; top: 60%; left: 30%; animation-duration: 25s;"></div>
+    <div class="shape" style="width: 120px; height: 120px; top: 20%; left: 70%; animation-duration: 18s;"></div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <img src="https://via.placeholder.com/120" alt="User Avatar" class="user-avatar" loading="lazy">
+    <div>
+      <h2>viva</h2>
+      <p>ID: #123456</p>
+    </div>
+    <a href="/dashboard" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    <a href="#" class="back-btn logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header>
+      <h1><i class="fas fa-hands-helping"></i> Deaf Community Help Center</h1>
+      <p class="text-lighter">Comprehensive resources and support for India's deaf and hard-of-hearing community</p>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for NGOs, laws, emergency contacts..." aria-label="Search resources">
+      <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="quick-links">
+      <a href="#laws" class="quick-link"><i class="fas fa-gavel"></i> Legal Rights</a>
+      <a href="#ngos" class="quick-link"><i class="fas fa-hands-helping"></i> NGOs</a>
+      <a href="#education" class="quick-link"><i class="fas fa-school"></i> Education</a>
+      <a href="#emergency" class="quick-link"><i class="fas fa-ambulance"></i> Emergency</a>
+      <a href="#jobs" class="quick-link"><i class="fas fa-briefcase"></i> Jobs</a>
+      <a href="#isl" class="quick-link"><i class="fas fa-sign-language"></i> Learn ISL</a>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container" role="tablist">
+      <button class="tab-btn active" onclick="openTab('national')" role="tab" aria-selected="true" aria-controls="national-tab"><i class="fas fa-globe-asia"></i> National</button>
+      <button class="tab-btn" onclick="openTab('state')" role="tab" aria-selected="false" aria-controls="state-tab"><i class="fas fa-map-marker-alt"></i> State-wise</button>
+      <button class="tab-btn" onclick="openTab('learn')" role="tab" aria-selected="false" aria-controls="learn-tab"><i class="fas fa-sign-language"></i> Learn ISL</button>
+    </div>
+
+    <!-- National Resources Tab -->
+    <div id="national" class="tab-content active" role="tabpanel" aria-labelledby="national-tab">
+      <!-- Laws Section -->
+      <h2 id="laws" class="section-title"><i class="fas fa-balance-scale"></i> Legal Rights & Schemes</h2>
+      <div class="resource-grid">
+        <div class="glass-card law-card">
+          <h3><i class="fas fa-file-alt"></i> RPWD Act 2016 <span class="badge badge-new">IMPORTANT</span></h3>
+          <p>The Rights of Persons with Disabilities Act guarantees fundamental rights and accessibility:</p>
+          <ul>
+            <li><strong>5% reservation</strong> in government jobs and higher education</li>
+            <li><strong>Free education</strong> for children up to age 18</li>
+            <li>Mandatory <strong>accessibility standards</strong> for public spaces</li>
+            <li>Legal protection against <strong>discrimination</strong></li>
+          </ul>
+          <a href="https://www.disabilityaffairs.gov.in" class="action-btn">
+            Read Full Act <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="glass-card law-card">
+          <h3><i class="fas fa-rupee-sign"></i> Government Schemes</h3>
+          <ul>
+            <li><strong>ADIP Scheme:</strong> Free hearing aids and assistive devices</li>
+            <li><strong>Scholarships:</strong> Up to ₹50,000/year for higher education</li>
+            <li><strong>Travel Concessions:</strong> 75% discount in Indian Railways</li>
+            <li><strong>Skill Development:</strong> Free vocational training programs</li>
+          </ul>
+          <a href="https://www.swavlambancard.gov.in" class="action-btn">
+            Apply Now <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- NGOs Section -->
+      <h2 id="ngos" class="section-title"><i class="fas fa-hands-helping"></i> Major NGOs in India</h2>
+      <div class="resource-grid">
+        <div class="glass-card ngo-card">
+          <h3><i class="fas fa-hospital"></i> AYJNISHD <span class="badge badge-hot">MULTI-CITY</span></h3>
+          <p><strong>Services:</strong> Hearing tests, education, rehabilitation, ISL training</p>
+          <p><strong>Locations:</strong> Mumbai, Delhi, Kolkata, Secunderabad</p>
+          <div class="quick-links" style="margin-top: 1rem; justify-content: start;">
+            <a href="tel:+911126472320" class="quick-link"><i class="fas fa-phone"></i> Call</a>
+            <a href="http://ayjnihh.nic.in" class="quick-link"><i class="fas fa-globe"></i> Website</a>
+            <a href="#" class="quick-link"><i class="fas fa-map-marked-alt"></i> Directions</a>
+          </div>
+        </div>
+
+        <div class="glass-card ngo-card">
+          <h3><i class="fas fa-gavel"></i> National Association of the Deaf</h3>
+          <p><strong>Services:</strong> Legal aid, advocacy, disability rights awareness</p>
+          <p><strong>Helpline:</strong> +91-11-2647-3154 (Monday-Friday, 10AM-5PM)</p>
+          <a href="http://nadindia.org" class="action-btn">
+            Contact NAD <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="glass-card ngo-card">
+          <h3><i class="fas fa-child"></i> DeafKidz International</h3>
+          <p><strong>Focus:</strong> Children's education & safety programs</p>
+          <p><strong>Programs:</strong> ISL storytelling, anti-abuse training, parent support</p>
+          <a href="https://deafkidzinternational.org" class="action-btn">
+            View Programs <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Emergency Section -->
+      <h2 id="emergency" class="section-title"><i class="fas fa-ambulance"></i> Emergency Contacts</h2>
+      <div class="resource-grid">
+        <div class="glass-card emergency-card">
+          <h3><i class="fas fa-police-box"></i> Police Assistance</h3>
+          <p><strong>Pan-India SMS Service for Deaf:</strong></p>
+          <p style="font-size: 1.8rem; margin: 1.5rem 0; font-weight: 700; color: white;">Text "HELP" to <strong>112</strong></p>
+          <p>Available in Hindi, English, and 10 regional languages. Response within 5 minutes.</p>
+        </div>
+
+        <div class="glass-card emergency-card">
+          <h3><i class="fas fa-stethoscope"></i> Medical & Mental Health</h3>
+          <ul>
+            <li><strong>Mental Health Helpline:</strong> Vandrevala Foundation - +91-9999-666-555 (24/7)</li>
+            <li><strong>Video Relay Service:</strong> Sambhav Foundation (ISL interpreters)</li>
+            <li><strong>COVID Support:</strong> Text "COVID" to 9013151515</li>
+            <li><strong>Women's Helpline:</strong> 1091 (SMS available)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- State-wise Help Tab -->
+    <div id="state" class="tab-content" role="tabpanel" aria-labelledby="state-tab">
+      <div class="state-selector">
+        <label for="state-select"><i class="fas fa-map-marked-alt"></i> Select Your State</label>
+        <select id="state-select" onchange="showStateResources()">
+          <option value="">-- Choose your state --</option>
+          <option value="andhra">Andhra Pradesh</option>
+          <option value="assam">Assam</option>
+          <option value="bihar">Bihar</option>
+          <option value="chhattisgarh">Chhattisgarh</option>
+          <option value="delhi">Delhi</option>
+          <option value="goa">Goa</option>
+          <option value="gujarat">Gujarat</option>
+          <option value="haryana">Haryana</option>
+          <option value="himachal">Himachal Pradesh</option>
+          <option value="jammu">Jammu & Kashmir</option>
+          <option value="jharkhand">Jharkhand</option>
+          <option value="karnataka">Karnataka</option>
+          <option value="kerala">Kerala</option>
+          <option value="ladakh">Ladakh</option>
+          <option value="madhyapradesh">Madhya Pradesh</option>
+          <option value="maharashtra">Maharashtra</option>
+          <option value="manipur">Manipur</option>
+          <option value="meghalaya">Meghalaya</option>
+          <option value="mizoram">Mizoram</option>
+          <option value="nagaland">Nagaland</option>
+          <option value="odisha">Odisha</option>
+          <option value="punjab">Punjab</option>
+          <option value="rajasthan">Rajasthan</option>
+          <option value="sikkim">Sikkim</option>
+          <option value="tamilnadu">Tamil Nadu</option>
+          <option value="telangana">Telangana</option>
+          <option value="tripura">Tripura</option>
+          <option value="uttarakhand">Uttarakhand</option>
+          <option value="uttarpradesh">Uttar Pradesh</option>
+          <option value="westbengal">West Bengal</option>
+          <option value="puducherry">Puducherry</option>
+          <option value="chandigarh">Chandigarh</option>
+        </select>
+      </div>
+
+      <div class="selected-state-display" id="selected-state-display">
+        <h3 class="selected-state-name">
+          <i class="fas fa-map-marker-alt selected-state-icon"></i>
+          <span id="selected-state-name"></span>
+        </h3>
+      </div>
+
+      <div id="state-resources" style="display: none;">
+        <div class="resource-grid" id="state-content">
+          <!-- Content will be loaded dynamically -->
+        </div>
+      </div>
+
+      <div id="no-state" style="text-align: center; margin-top: 3rem; opacity: 0.7;">
+        <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+        <h3>Select your state to view local resources</h3>
+        <p>We provide location-specific NGOs, schools, and support groups</p>
+      </div>
+    </div>
+
+    <!-- Learning ISL Tab -->
+    <div id="learn" class="tab-content" role="tabpanel" aria-labelledby="learn-tab">
+      <h2 id="isl" class="section-title"><i class="fas fa-sign-language"></i> Learn Indian Sign Language</h2>
+      
+      <div class="video-container">
+        <iframe width="560" height="315" src="assets/intro.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Introduction to Indian Sign Language"></iframe>
+      </div>
+
+      <div class="resource-grid">
+        <div class="glass-card edu-card">
+          <h3><i class="fas fa-mobile-alt"></i> ISL Learning Apps</h3>
+          <ul>
+            <li><strong>ISLRTC Dictionary:</strong> Official app with 10,000+ signs</li>
+            <li><strong>SignAble:</strong> Daily life conversations with quizzes</li>
+            <li><strong>HandTalk:</strong> AI-powered sign translation</li>
+            <li><strong>Signily:</strong> Keyboard with ISL emojis</li>
+          </ul>
+          <div class="quick-links" style="margin-top: 1rem; justify-content: start;">
+            <a href="#" class="quick-link"><i class="fab fa-google-play"></i> Play Store</a>
+            <a href="#" class="quick-link"><i class="fab fa-apple"></i> App Store</a>
+          </div>
+        </div>
+
+        <div class="glass-card edu-card">
+          <h3><i class="fas fa-chalkboard-teacher"></i> Online Courses</h3>
+          <ul>
+            <li><strong>ISLRTC Free Courses:</strong> Basic to Advanced levels</li>
+            <li><strong>NPTEL:</strong> Certificate programs from IITs</li>
+            <li><strong>Udemy:</strong> Affordable courses with tutors</li>
+            <li><strong>YouTube:</strong> Free lessons from deaf educators</li>
+          </ul>
+          <a href="#" class="action-btn">
+            Browse Courses <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Education Section -->
+      <h2 id="education" class="section-title"><i class="fas fa-school"></i> Education Resources</h2>
+      <div class="resource-grid">
+        <div class="glass-card edu-card">
+          <h3><i class="fas fa-university"></i> Schools for Deaf</h3>
+          <ul>
+            <li><strong>Delhi:</strong> Modern School for Deaf (Barakhamba Road)</li>
+            <li><strong>Mumbai:</strong> Helen Keller Institute (Multiple branches)</li>
+            <li><strong>Chennai:</strong> Clarke School for Deaf (Adyar)</li>
+            <li><strong>Bangalore:</strong> Karnataka Welfare Association for the Deaf</li>
+          </ul>
+        </div>
+
+        <div class="glass-card edu-card">
+          <h3><i class="fas fa-graduation-cap"></i> Higher Education</h3>
+          <ul>
+            <li><strong>IGNOU:</strong> Special programs for deaf students</li>
+            <li><strong>Aligarh Muslim University:</strong> Dedicated disability cell</li>
+            <li><strong>IITs/NITs:</strong> 5% reservation with support services</li>
+            <li><strong>ISLRTC:</strong> Diploma in ISL teaching</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Employment Section -->
+      <h2 id="jobs" class="section-title"><i class="fas fa-briefcase"></i> Employment Opportunities</h2>
+      <div class="resource-grid">
+        <div class="glass-card">
+          <h3><i class="fas fa-building"></i> Government Jobs</h3>
+          <p>5% reservation in:</p>
+          <ul>
+            <li>All central/state government departments</li>
+            <li>Public sector banks and financial institutions</li>
+            <li>Indian Railways, Defense, and PSUs</li>
+            <li>Teaching positions in special schools</li>
+          </ul>
+          <a href="https://www.disabilityjobs.gov.in" class="action-btn">
+            Explore Jobs <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+
+        <div class="glass-card">
+          <h3><i class="fas fa-laptop-code"></i> Private Sector</h3>
+          <ul>
+            <li><strong>TCS:</strong> Deaf-friendly workplace with interpreters</li>
+            <li><strong>Infosys:</strong> Special hiring drives annually</li>
+            <li><strong>Amazon:</strong> Remote work options with accommodations</li>
+            <li><strong>Startups:</strong> Graphic design, content moderation roles</li>
+          </ul>
+          <div class="quick-links" style="margin-top: 1rem; justify-content: start;">
+            <a href="#" class="quick-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="#" class="quick-link"><i class="fas fa-search"></i> Job Portals</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <div class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <!-- Floating Help Button -->
+  <div class="floating-help-btn" onclick="window.location.href='#emergency'" aria-label="Emergency help">
+    <i class="fas fa-hands-helping"></i>
+  </div>
+
+  <script>
+    // Enhanced tab functionality
+    function openTab(tabName) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-hidden', 'true');
+      });
+      
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      
+      const activeTab = document.getElementById(tabName);
+      activeTab.classList.add('active');
+      activeTab.setAttribute('aria-hidden', 'false');
+      
+      event.currentTarget.classList.add('active');
+      event.currentTarget.setAttribute('aria-selected', 'true');
+      
+      // Smooth scroll to top
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // State resources data
+    const stateData = {
+      delhi: {
+        name: "Delhi Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> AYJNISHD Delhi</h3>
+            <p><strong>Address:</strong> Kasturba Niketan, Lajpat Nagar-II</p>
+            <p><strong>Services:</strong> Hearing tests, ISL training, counseling</p>
+            <p><strong>Contact:</strong> 011-2984-2320 (10AM-5PM)</p>
+            <div class="quick-links" style="margin-top: 1rem; justify-content: start;">
+              <a href="tel:+911129842320" class="quick-link"><i class="fas fa-phone"></i> Call</a>
+              <a href="#" class="quick-link"><i class="fas fa-calendar-alt"></i> Book Appointment</a>
+            </div>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Delhi Disability Rights Commission</h3>
+            <p><strong>Services:</strong> Legal aid, grievance redressal</p>
+            <p><strong>Helpline:</strong> 011-2337-9104</p>
+            <p><strong>Email:</strong> ddrcdelhi@gov.in</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Special Schools in Delhi</h3>
+            <ul>
+              <li>Modern School for Deaf (Barakhamba Road)</li>
+              <li>Indian Sign Language Research Center</li>
+              <li>Action for Ability Development (AADI)</li>
+            </ul>
+          </div>
+        `
+      },
+      maharashtra: {
+        name: "Maharashtra Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Helen Keller Institute</h3>
+            <p><strong>Branches:</strong> Mumbai, Pune, Nagpur</p>
+            <p><strong>Programs:</strong> Vocational training, ISL classes</p>
+            <p><strong>Contact:</strong> 022-2262-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Deaf Foundation</h3>
+            <p><strong>Services:</strong> Job placement, skill development</p>
+            <p><strong>Location:</strong> Dadar, Mumbai</p>
+            <p><strong>Email:</strong> info@deaffoundation.org</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-ambulance"></i> Emergency Services</h3>
+            <ul>
+              <li><strong>Police SMS:</strong> Text "HELP" to 112</li>
+              <li><strong>Medical Helpline:</strong> 108</li>
+              <li><strong>Women's Helpline:</strong> 1091 (SMS available)</li>
+            </ul>
+          </div>
+        `
+      },
+      tamilnadu: {
+        name: "Tamil Nadu Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Clarke School for Deaf</h3>
+            <p><strong>Location:</strong> Adyar, Chennai</p>
+            <p><strong>Since:</strong> 1945</p>
+            <p><strong>Programs:</strong> Education K-12, vocational training</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Tamil Nadu Association for the Deaf</h3>
+            <p><strong>Location:</strong> Chennai, Coimbatore, Madurai</p>
+            <p><strong>Services:</strong> Legal aid, ISL classes, job training</p>
+            <p><strong>Contact:</strong> 044-2626-2626</p>
+          </div>
+        `
+      },
+      karnataka: {
+        name: "Karnataka Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Karnataka Welfare Association for the Deaf</h3>
+            <p><strong>Location:</strong> Bangalore, Mysore, Mangalore</p>
+            <p><strong>Programs:</strong> Education, vocational training</p>
+            <p><strong>Contact:</strong> 080-2666-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Opportunities</h3>
+            <ul>
+              <li>IT companies in Bangalore with deaf-friendly policies</li>
+              <li>Government job reservations through KPSC</li>
+              <li>Vocational training centers in 5 districts</li>
+            </ul>
+          </div>
+        `
+      },
+      westbengal: {
+        name: "West Bengal Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Indian Institute for the Deaf</h3>
+            <p><strong>Location:</strong> Kolkata</p>
+            <p><strong>Services:</strong> Hearing tests, education, counseling</p>
+            <p><strong>Contact:</strong> 033-2466-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Disability Rights Organizations</h3>
+            <ul>
+              <li>West Bengal Disability Commission</li>
+              <li>Deaf Child's Hope Foundation</li>
+              <li>Kolkata Deaf Club</li>
+            </ul>
+          </div>
+        `
+      },
+      kerala: {
+        name: "Kerala Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Kerala Federation of the Deaf</h3>
+            <p><strong>Location:</strong> Thiruvananthapuram, Kochi, Kozhikode</p>
+            <p><strong>Services:</strong> Advocacy, ISL training, legal aid</p>
+            <p><strong>Contact:</strong> 0471-246-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Schemes</h3>
+            <ul>
+              <li>Free hearing aids distribution</li>
+              <li>Special schools in all districts</li>
+              <li>Transport concessions for deaf students</li>
+            </ul>
+          </div>
+        `
+      },
+      gujarat: {
+        name: "Gujarat Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Blind People's Association</h3>
+            <p><strong>Location:</strong> Ahmedabad</p>
+            <p><strong>Services:</strong> Hearing tests, rehabilitation</p>
+            <p><strong>Contact:</strong> 079-2630-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Vocational Training</h3>
+            <ul>
+              <li>Deaf-friendly IT training centers</li>
+              <li>Handicraft production units</li>
+              <li>Government skill development programs</li>
+            </ul>
+          </div>
+        `
+      },
+      andra: {
+        name: "Andhra Pradesh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Andhra Pradesh Association of the Deaf</h3>
+            <p><strong>Location:</strong> Visakhapatnam, Vijayawada</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 0891-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Initiatives</h3>
+            <ul>
+              <li>Special schools in all districts</li>
+              <li>Sign language interpreter training programs</li>
+              <li>Disability pension schemes</li>
+            </ul>
+          </div>
+        `
+      },
+      telangana: {
+        name: "Telangana Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> AYJNISHD Secunderabad</h3>
+            <p><strong>Location:</strong> Secunderabad</p>
+            <p><strong>Services:</strong> Hearing tests, education, rehabilitation</p>
+            <p><strong>Contact:</strong> 040-2781-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Support</h3>
+            <ul>
+              <li>IT companies with deaf-friendly policies</li>
+              <li>Government job reservations</li>
+              <li>Vocational training centers</li>
+            </ul>
+          </div>
+        `
+      },
+      punjab: {
+        name: "Punjab Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Punjab Deaf Association</h3>
+            <p><strong>Location:</strong> Ludhiana, Amritsar, Jalandhar</p>
+            <p><strong>Services:</strong> Education, advocacy, legal aid</p>
+            <p><strong>Contact:</strong> 0161-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Schemes</h3>
+            <ul>
+              <li>Free hearing aids distribution</li>
+              <li>Special schools in major cities</li>
+              <li>Transport concessions</li>
+            </ul>
+          </div>
+        `
+      },
+      rajasthan: {
+        name: "Rajasthan Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Jaipur Deaf School</h3>
+            <p><strong>Location:</strong> Jaipur</p>
+            <p><strong>Programs:</strong> Education K-12, vocational training</p>
+            <p><strong>Contact:</strong> 0141-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Disability Rights</h3>
+            <ul>
+              <li>Rajasthan Disability Commission</li>
+              <li>Legal aid services</li>
+              <li>Accessibility initiatives</li>
+            </ul>
+          </div>
+        `
+      },
+      haryana: {
+        name: "Haryana Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Haryana Welfare Society for the Deaf</h3>
+            <p><strong>Location:</strong> Faridabad, Gurgaon, Panchkula</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 0129-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Support</h3>
+            <ul>
+              <li>Industrial training programs</li>
+              <li>Government job reservations</li>
+              <li>Private sector partnerships</li>
+            </ul>
+          </div>
+        `
+      },
+      bihar: {
+        name: "Bihar Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Bihar Deaf Association</h3>
+            <p><strong>Location:</strong> Patna, Gaya, Muzaffarpur</p>
+            <p><strong>Services:</strong> Education, advocacy, legal aid</p>
+            <p><strong>Contact:</strong> 0612-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Initiatives</h3>
+            <ul>
+              <li>Special schools in major cities</li>
+              <li>Hearing aid distribution camps</li>
+              <li>Disability pension schemes</li>
+            </ul>
+          </div>
+        `
+      },
+      assam: {
+        name: "Assam Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Assam Deaf Society</h3>
+            <p><strong>Location:</strong> Guwahati, Dibrugarh, Silchar</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0361-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Vocational Training</h3>
+            <ul>
+              <li>Handicraft production units</li>
+              <li>Computer training centers</li>
+              <li>Government skill programs</li>
+            </ul>
+          </div>
+        `
+      },
+      odisha: {
+        name: "Odisha Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Odisha Association of the Deaf</h3>
+            <p><strong>Location:</strong> Bhubaneswar, Cuttack, Rourkela</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 0674-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Schemes</h3>
+            <ul>
+              <li>Special schools in all districts</li>
+              <li>Hearing aid distribution programs</li>
+              <li>Transport concessions</li>
+            </ul>
+          </div>
+        `
+      },
+      madhyapradesh: {
+        name: "Madhya Pradesh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> MP Deaf Welfare Society</h3>
+            <p><strong>Location:</strong> Bhopal, Indore, Jabalpur</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0755-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Disability Rights</h3>
+            <ul>
+              <li>MP Disability Commission</li>
+              <li>Legal aid services</li>
+              <li>Accessibility initiatives</li>
+            </ul>
+          </div>
+        `
+      },
+      uttarpradesh: {
+        name: "Uttar Pradesh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> UP Deaf Association</h3>
+            <p><strong>Location:</strong> Lucknow, Kanpur, Varanasi</p>
+            <p><strong>Services:</strong> Education, advocacy, legal aid</p>
+            <p><strong>Contact:</strong> 0522-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Support</h3>
+            <ul>
+              <li>Industrial training programs</li>
+              <li>Government job reservations</li>
+              <li>Private sector partnerships</li>
+            </ul>
+          </div>
+        `
+      },
+      jharkhand: {
+        name: "Jharkhand Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Jharkhand Deaf Society</h3>
+            <p><strong>Location:</strong> Ranchi, Jamshedpur, Dhanbad</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0651-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Initiatives</h3>
+            <ul>
+              <li>Special schools in major cities</li>
+              <li>Hearing aid distribution camps</li>
+              <li>Disability pension schemes</li>
+            </ul>
+          </div>
+        `
+      },
+      chhattisgarh: {
+        name: "Chhattisgarh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Chhattisgarh Deaf Association</h3>
+            <p><strong>Location:</strong> Raipur, Bilaspur, Durg</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 0771-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Vocational Training</h3>
+            <ul>
+              <li>Handicraft production units</li>
+              <li>Computer training centers</li>
+              <li>Government skill programs</li>
+            </ul>
+          </div>
+        `
+      },
+      uttarakhand: {
+        name: "Uttarakhand Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Uttarakhand Deaf Welfare Society</h3>
+            <p><strong>Location:</strong> Dehradun, Haldwani</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0135-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Schemes</h3>
+            <ul>
+              <li>Special schools in major cities</li>
+              <li>Hearing aid distribution programs</li>
+              <li>Transport concessions</li>
+            </ul>
+          </div>
+        `
+      },
+      himachal: {
+        name: "Himachal Pradesh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> HP Association of the Deaf</h3>
+            <p><strong>Location:</strong> Shimla, Dharamshala</p>
+            <p><strong>Services:</strong> Education, advocacy, legal aid</p>
+            <p><strong>Contact:</strong> 0177-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Disability Rights</h3>
+            <ul>
+              <li>HP Disability Commission</li>
+              <li>Legal aid services</li>
+              <li>Accessibility initiatives</li>
+            </ul>
+          </div>
+        `
+      },
+      goa: {
+        name: "Goa Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Goa Deaf Society</h3>
+            <p><strong>Location:</strong> Panaji, Margao</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0832-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Support</h3>
+            <ul>
+              <li>Tourism industry opportunities</li>
+              <li>Government job reservations</li>
+              <li>Vocational training centers</li>
+            </ul>
+          </div>
+        `
+      },
+      manipur: {
+        name: "Manipur Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Manipur Deaf Association</h3>
+            <p><strong>Location:</strong> Imphal</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 0385-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Initiatives</h3>
+            <ul>
+              <li>Special schools</li>
+              <li>Hearing aid distribution camps</li>
+              <li>Disability pension schemes</li>
+            </ul>
+          </div>
+        `
+      },
+      meghalaya: {
+        name: "Meghalaya Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Meghalaya Deaf Society</h3>
+            <p><strong>Location:</strong> Shillong</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0364-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Vocational Training</h3>
+            <ul>
+              <li>Handicraft production units</li>
+              <li>Computer training centers</li>
+              <li>Government skill programs</li>
+            </ul>
+          </div>
+        `
+      },
+      mizoram: {
+        name: "Mizoram Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Mizoram Deaf Association</h3>
+            <p><strong>Location:</strong> Aizawl</p>
+            <p><strong>Services:</strong> Education, advocacy, legal aid</p>
+            <p><strong>Contact:</strong> 0389-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Schemes</h3>
+            <ul>
+              <li>Special schools</li>
+              <li>Hearing aid distribution programs</li>
+              <li>Transport concessions</li>
+            </ul>
+          </div>
+        `
+      },
+      nagaland: {
+        name: "Nagaland Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Nagaland Deaf Society</h3>
+            <p><strong>Location:</strong> Kohima, Dimapur</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0370-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Disability Rights</h3>
+            <ul>
+              <li>Nagaland Disability Commission</li>
+              <li>Legal aid services</li>
+              <li>Accessibility initiatives</li>
+            </ul>
+          </div>
+        `
+      },
+      sikkim: {
+        name: "Sikkim Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Sikkim Deaf Association</h3>
+            <p><strong>Location:</strong> Gangtok</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 03592-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Support</h3>
+            <ul>
+              <li>Tourism industry opportunities</li>
+              <li>Government job reservations</li>
+              <li>Vocational training centers</li>
+            </ul>
+          </div>
+        `
+      },
+      tripura: {
+        name: "Tripura Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Tripura Deaf Society</h3>
+            <p><strong>Location:</strong> Agartala</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0381-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Initiatives</h3>
+            <ul>
+              <li>Special schools</li>
+              <li>Hearing aid distribution camps</li>
+              <li>Disability pension schemes</li>
+            </ul>
+          </div>
+        `
+      },
+      puducherry: {
+        name: "Puducherry Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> Puducherry Deaf Association</h3>
+            <p><strong>Location:</strong> Puducherry</p>
+            <p><strong>Services:</strong> Education, advocacy, legal aid</p>
+            <p><strong>Contact:</strong> 0413-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Vocational Training</h3>
+            <ul>
+              <li>Handicraft production units</li>
+              <li>Computer training centers</li>
+              <li>Government skill programs</li>
+            </ul>
+          </div>
+        `
+      },
+      chandigarh: {
+        name: "Chandigarh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Chandigarh Deaf Society</h3>
+            <p><strong>Location:</strong> Chandigarh</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 0172-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-hands-helping"></i> Government Schemes</h3>
+            <ul>
+              <li>Special schools</li>
+              <li>Hearing aid distribution programs</li>
+              <li>Transport concessions</li>
+            </ul>
+          </div>
+        `
+      },
+      jammu: {
+        name: "Jammu & Kashmir Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-school"></i> J&K Deaf Association</h3>
+            <p><strong>Location:</strong> Srinagar, Jammu</p>
+            <p><strong>Services:</strong> Education, advocacy, ISL training</p>
+            <p><strong>Contact:</strong> 0194-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-gavel"></i> Disability Rights</h3>
+            <ul>
+              <li>J&K Disability Commission</li>
+              <li>Legal aid services</li>
+              <li>Accessibility initiatives</li>
+            </ul>
+          </div>
+        `
+      },
+      ladakh: {
+        name: "Ladakh Resources",
+        content: `
+          <div class="glass-card">
+            <h3><i class="fas fa-hospital"></i> Ladakh Deaf Society</h3>
+            <p><strong>Location:</strong> Leh, Kargil</p>
+            <p><strong>Services:</strong> Education, rehabilitation, advocacy</p>
+            <p><strong>Contact:</strong> 01982-266-2626</p>
+          </div>
+          <div class="glass-card">
+            <h3><i class="fas fa-briefcase"></i> Employment Support</h3>
+            <ul>
+              <li>Tourism industry opportunities</li>
+              <li>Government job reservations</li>
+              <li>Vocational training centers</li>
+            </ul>
+          </div>
+        `
+      }
+    };
+
+    function showStateResources() {
+      const stateSelect = document.getElementById('state-select');
+      const stateResources = document.getElementById('state-resources');
+      const noState = document.getElementById('no-state');
+      const selectedStateDisplay = document.getElementById('selected-state-display');
+      const selectedStateName = document.getElementById('selected-state-name');
+      
+      if (stateSelect.value && stateData[stateSelect.value]) {
+        const state = stateData[stateSelect.value];
+        selectedStateName.textContent = state.name;
+        document.getElementById('state-content').innerHTML = state.content;
+        
+        // Show elements
+        selectedStateDisplay.classList.add('active');
+        stateResources.style.display = 'block';
+        noState.style.display = 'none';
+        
+        // Smooth animations
+        setTimeout(() => {
+          stateResources.style.opacity = 1;
+          stateResources.style.transform = 'translateY(0)';
+        }, 300);
+        
+        // Smooth scroll to state section
+        setTimeout(() => {
+          stateResources.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+      } else {
+        selectedStateDisplay.classList.remove('active');
+        stateResources.style.display = 'none';
+        noState.style.display = 'block';
+      }
+    }
+
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const icon = darkModeToggle.querySelector('i');
+      if (document.body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
+    });
+
+    // Enhanced search with debounce
+    let searchTimeout;
+    document.querySelector('.search-input').addEventListener('input', function(e) {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        // Implement search functionality here
+        console.log('Searching for:', e.target.value);
+      }, 300);
+    });
+
+    // Improved state selector with keyboard navigation
+    document.getElementById('state-select').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        showStateResources();
+      }
+    });
+
+    // Add focus styles for all interactive elements
+    document.querySelectorAll('button, a, input, select').forEach(el => {
+      el.addEventListener('focus', function() {
+        this.style.outline = '2px solid white';
+        this.style.outlineOffset = '2px';
+      });
+      el.addEventListener('blur', function() {
+        this.style.outline = 'none';
+      });
+    });
+
+    // Animate cards on scroll
+    const observerOptions = {
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.glass-card').forEach(card => {
+      card.style.opacity = 0;
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(card);
+    });
+
+    // Service worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

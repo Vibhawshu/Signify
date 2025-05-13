@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Sign Language</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --glass-effect: rgba(255, 255, 255, 0.05);
+      --text-light: rgba(255, 255, 255, 0.9);
+      --text-lighter: rgba(255, 255, 255, 0.7);
+      --neon-blue: #00f2ff;
+      --neon-pink: #ff00ff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: var(--text-light);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(72, 149, 239, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(76, 201, 240, 0.15) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+      z-index: -2;
+    }
+    
+    .container {
+      padding: 2rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    header {
+      margin-bottom: 3rem;
+      position: relative;
+      text-align: center;
+    }
+    
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(67, 97, 238, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 50px;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    
+    .back-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: 0.5s;
+    }
+    
+    .back-button:hover {
+      background: rgba(67, 97, 238, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .back-button:hover::before {
+      left: 100%;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 1.5rem 0;
+      text-align: center;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    }
+    
+    h1::after {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+      margin: 1.5rem auto 0;
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+    
+    h1 i {
+      margin-right: 0.8rem;
+      color: var(--success);
+      filter: drop-shadow(0 0 5px rgba(76, 201, 240, 0.7));
+    }
+    
+    .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--text-lighter);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+      backdrop-filter: blur(5px);
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .exercises {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      justify-content: center;
+    }
+    
+    .exercise-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .exercise-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.2), rgba(58, 12, 163, 0.1));
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .exercise-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+    
+    .exercise-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+    }
+    
+    .exercise-card:hover::before {
+      opacity: 1;
+    }
+    
+    .exercise-card:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .exercise-card h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1.2rem;
+      color: white;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .exercise-card h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: var(--success);
+      transition: all 0.3s ease;
+    }
+    
+    .exercise-card:hover h2::after {
+      width: 80px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+    }
+    
+    .exercise-card p {
+      color: var(--text-lighter);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    
+    .exercise-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--success);
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 0 10px rgba(76, 201, 240, 0.3));
+    }
+    
+    .exercise-card:hover .exercise-icon {
+      transform: scale(1.2) rotate(10deg);
+      color: var(--neon-blue);
+      filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.5));
+    }
+    
+    .start-button {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 1rem 2.2rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      z-index: 1;
+      text-decoration: none;
+    }
+    
+    .start-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .start-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    
+    .start-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(67, 97, 238, 0.5);
+    }
+    
+    .start-button:hover::before {
+      opacity: 1;
+    }
+    
+    .start-button:hover::after {
+      transform: translateX(100%);
+    }
+    
+    .floating-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .shape {
+      position: absolute;
+      opacity: 0.08;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+      animation: float 15s infinite linear;
+      filter: blur(1px);
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+      }
+    }
+    
+    /* Particle background */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: float-particle 15s infinite linear;
+    }
+    
+    @keyframes float-particle {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(20px);
+        opacity: 0;
+      }
+    }
+    
+    /* Glow effects */
+    .glow {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 242, 255, 0.2), transparent 70%);
+      filter: blur(20px);
+      z-index: -1;
+      animation: pulse 8s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .exercises {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .exercise-card {
+        padding: 2rem 1.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.1rem;
+        padding: 0.8rem;
+      }
+    }
+    
+    /* Micro-interactions and animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .container {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .exercise-card {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .exercise-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+    
+    .exercise-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+    
+    .exercise-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+    
+    /* Hover effect for disabled button */
+    .start-button[disabled] {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .start-button[disabled]:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .start-button[disabled]::after {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-shapes">
+    <div class="shape" style="width: 150px; height: 150px; top: 10%; left: 5%; animation-duration: 20s;"></div>
+    <div class="shape" style="width: 100px; height: 100px; top: 70%; left: 80%; animation-duration: 15s;"></div>
+    <div class="shape" style="width: 200px; height: 200px; top: 60%; left: 30%; animation-duration: 25s;"></div>
+    <div class="shape" style="width: 80px; height: 80px; top: 20%; left: 70%; animation-duration: 18s;"></div>
+  </div>
+  
+  <div class="particles" id="particles"></div>
+  
+  <div class="glow" style="top: 20%; left: 10%;"></div>
+  <div class="glow" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
+  <div class="glow" style="top: 40%; left: 60%; animation-delay: 4s;"></div>
+  
+  <div class="container">
+    <header>
+      <a href="/dashboard" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+      <h1><i class="fas fa-hands-helping"></i> Practice Sign Language</h1>
+      <p class="subtitle">Enhance your sign language skills through interactive exercises designed to improve your recognition, matching abilities, and fluency in ASL communication.</p>
+    </header>
+
+    <main class="exercises">
+      <div class="exercise-card">
+        <div class="exercise-icon">
+          <i class="fas fa-puzzle-piece"></i>
+        </div>
+        <h2>Matching Game</h2>
+        <p>Test your knowledge by matching signs to their corresponding words or images in this engaging memory challenge with multiple difficulty levels.</p>
+        <a href="/matching-game" class="start-button">
+          Start Practice <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="exercise-card">
+        <div class="exercise-icon">
+          <i class="fas fa-font"></i>
+        </div>
+        <h2>Alphabet Challenge</h2>
+        <p>Master the sign language alphabet through timed exercises, finger spelling practice, and interactive quizzes with performance tracking.</p>
+        <a href="/alphabet-challenge" class="start-button">
+          Start Practice <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="exercise-card">
+        <div class="exercise-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <h2>Sign Recognition</h2>
+        <p>Improve your ability to quickly identify and understand various sign language gestures through our AI-powered visual recognition system.</p>
+        <button class="start-button" disabled>
+          Coming Soon <i class="fas fa-clock"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Create particle background
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 3 + 1;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = 10 + Math.random() * 20;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.bottom = '0';
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Add hover sound effect to buttons
+      const buttons = document.querySelectorAll('.start-button:not([disabled])');
+      buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          // In a real implementation, you would play a sound here
+          console.log('Hover sound effect');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

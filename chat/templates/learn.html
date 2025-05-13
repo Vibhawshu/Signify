@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Sign Language | Signify AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #7209b7;
+      --primary-dark: #560bad;
+      --secondary: #480ca8;
+      --accent: #4361ee;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --highlight: #f72585;
+      --success: #4cc9f0;
+      --warning: #f8961e;
+      --info: #4895ef;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --glass-effect: rgba(255, 255, 255, 0.05);
+      --text-light: rgba(255, 255, 255, 0.95);
+      --text-lighter: rgba(255, 255, 255, 0.75);
+      --transition-base: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.05);
+      --border-radius-sm: 8px;
+      --border-radius-md: 12px;
+      --border-radius-lg: 16px;
+      --border-radius-xl: 24px;
+      --border-radius-full: 9999px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text-light);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(114, 9, 183, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(247, 37, 133, 0.2) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, transparent 100%);
+      z-index: -1;
+    }
+    
+    .container {
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    header {
+      margin-bottom: 3rem;
+      position: relative;
+      text-align: center;
+    }
+    
+    .back-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius-full);
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition-bounce);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin: 1.5rem 0;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(to right, white, #e0e7ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--highlight);
+      margin: 1.5rem auto 0;
+      border-radius: 2px;
+      box-shadow: 0 2px 8px rgba(247, 37, 133, 0.5);
+    }
+    
+    h1 i {
+      margin-right: 0.8rem;
+      color: var(--highlight);
+      filter: drop-shadow(0 2px 4px rgba(247, 37, 133, 0.5));
+    }
+    
+    .subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-lighter);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+    }
+    
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+    }
+    
+    .category-card {
+      text-decoration: none;
+      color: inherit;
+      perspective: 1000px;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border-radius: var(--border-radius-lg);
+      padding: 2.5rem 2rem;
+      height: 320px;
+      text-align: center;
+      transition: var(--transition-bounce);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(114, 9, 183, 0.3), rgba(58, 12, 163, 0.1));
+      z-index: -1;
+      opacity: 0;
+      transition: var(--transition-base);
+    }
+    
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(255, 255, 255, 0.1) 48%,
+        rgba(255, 255, 255, 0.1) 52%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      transition: var(--transition-base);
+      opacity: 0;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.03) rotateX(5deg);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+    }
+    
+    .card:hover::before {
+      opacity: 1;
+    }
+    
+    .card:hover::after {
+      opacity: 1;
+      animation: shine 1.5s ease infinite;
+    }
+    
+    .card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: white;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .card h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 2px;
+      background: var(--highlight);
+      border-radius: 1px;
+      transition: var(--transition-base);
+    }
+    
+    .card:hover h2::after {
+      width: 50px;
+    }
+    
+    .card p {
+      color: var(--text-lighter);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      transition: var(--transition-base);
+    }
+    
+    .card:hover p {
+      color: var(--text-light);
+    }
+    
+    .icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--highlight);
+      display: inline-block;
+      transition: var(--transition-bounce);
+      filter: drop-shadow(0 4px 6px rgba(247, 37, 133, 0.3));
+    }
+    
+    .card:hover .icon {
+      transform: scale(1.1) rotate(5deg);
+      filter: drop-shadow(0 6px 10px rgba(247, 37, 133, 0.5));
+    }
+    
+    /* Category-specific colors */
+    .alphabet-card {
+      --highlight: #f72585;
+    }
+    
+    .words-card {
+      --highlight: #4cc9f0;
+    }
+    
+    .sentences-card {
+      --highlight: #f8961e;
+    }
+    
+    /* Progress indicator */
+    .progress-container {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-lighter);
+      transition: var(--transition-base);
+    }
+    
+    .card:hover .progress-label {
+      color: var(--text-light);
+    }
+    
+    .progress-indicator {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, var(--highlight), var(--accent));
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+    
+    .card:hover .progress-bar {
+      width: 65%;
+    }
+    
+    /* Floating shapes */
+    .floating-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .shape {
+      position: absolute;
+      opacity: 0.15;
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+      filter: blur(1px);
+    }
+    
+    .shape:nth-child(1) {
+      background: var(--highlight);
+    }
+    
+    .shape:nth-child(2) {
+      background: var(--success);
+    }
+    
+    .shape:nth-child(3) {
+      background: var(--accent);
+    }
+    
+    .shape:nth-child(4) {
+      background: var(--warning);
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+      20% {
+        left: 100%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+    
+    .container {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .category-card:nth-child(1) .card {
+      animation-delay: 0.1s;
+    }
+    
+    .category-card:nth-child(2) .card {
+      animation-delay: 0.2s;
+    }
+    
+    .category-card:nth-child(3) .card {
+      animation-delay: 0.3s;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .categories {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+        margin-top: 2.5rem;
+      }
+      
+      .back-button {
+        top: -0.5rem;
+      }
+      
+      .categories {
+        grid-template-columns: 1fr;
+      }
+      
+      .card {
+        height: auto;
+        padding: 2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .container {
+        padding: 2rem 1.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-shapes">
+    <div class="shape" style="width: 150px; height: 150px; top: 10%; left: 5%; animation-duration: 20s;"></div>
+    <div class="shape" style="width: 100px; height: 100px; top: 70%; left: 80%; animation-duration: 15s;"></div>
+    <div class="shape" style="width: 200px; height: 200px; top: 60%; left: 30%; animation-duration: 25s;"></div>
+    <div class="shape" style="width: 80px; height: 80px; top: 20%; left: 70%; animation-duration: 18s;"></div>
+  </div>
+  
+  <div class="container">
+    <header>
+      <a href="/dashboard" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+      <h1><i class="fas fa-book-open"></i> Learn Sign Language</h1>
+      <p class="subtitle">Master the fundamentals of sign language through our structured learning paths, from alphabet to complex sentences. Track your progress and unlock achievements as you learn.</p>
+    </header>
+
+    <main class="categories">
+      <a href="/alphabet" class="category-card">
+        <div class="card alphabet-card">
+          <i class="fas fa-font icon"></i>
+          <h2>Alphabet</h2>
+          <p>Learn the building blocks of sign language with A-Z representations, interactive diagrams, and practice exercises.</p>
+          <div class="progress-container">
+            <div class="progress-label">
+              <span>Your progress</span>
+              <span>30%</span>
+            </div>
+            <div class="progress-indicator">
+              <div class="progress-bar" style="width: 30%"></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/words" class="category-card">
+        <div class="card words-card">
+          <i class="fas fa-spell-check icon"></i>
+          <h2>Words</h2>
+          <p>Expand your vocabulary with common words and their sign language representations through immersive learning.</p>
+          <div class="progress-container">
+            <div class="progress-label">
+              <span>Your progress</span>
+              <span>15%</span>
+            </div>
+            <div class="progress-indicator">
+              <div class="progress-bar" style="width: 15%"></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/sentences" class="category-card">
+        <div class="card sentences-card">
+          <i class="fas fa-comments icon"></i>
+          <h2>Sentences</h2>
+          <p>Combine your knowledge to form meaningful phrases from basic greetings to complex conversations.</p>
+          <div class="progress-container">
+            <div class="progress-label">
+              <span>Your progress</span>
+              <span>5%</span>
+            </div>
+            <div class="progress-indicator">
+              <div class="progress-bar" style="width: 5%"></div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </main>
+  </div>
+
+  <script>
+    // Add 3D tilt effect to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const x = e.offsetX;
+        const y = e.offsetY;
+        const centerX = card.offsetWidth / 2;
+        const centerY = card.offsetHeight / 2;
+        const angleX = (y - centerY) / 20;
+        const angleY = (centerX - x) / 20;
+        
+        card.style.transform = `translateY(-10px) scale(1.03) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(-10px) scale(1.03) rotateX(0) rotateY(0)';
+      });
+    });
+
+    // Parallax effect for floating shapes
+    document.addEventListener('mousemove', (e) => {
+      const shapes = document.querySelectorAll('.shape');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      shapes.forEach((shape, index) => {
+        const speed = 0.05 * (index + 1);
+        const xOffset = (x - 0.5) * 50 * speed;
+        const yOffset = (y - 0.5) * 50 * speed;
+        
+        shape.style.transform = `translate(${xOffset}px, ${yOffset}px) rotate(${x * 10}deg)`;
+      });
+    });
+  </script>
+</body>
+</html>

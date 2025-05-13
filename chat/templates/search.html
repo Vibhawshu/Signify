@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Search | Expert UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3f37c9;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --text: #2b2d42;
+            --text-light: #8d99ae;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: rgba(0,0,0,0.08);
+            --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-hover: 0 10px 25px rgba(67, 97, 238, 0.15);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff00ff;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text: #f8f9fa;
+            --text-light: #adb5bd;
+            --bg: #121212;
+            --bg-elevated: #1e1e1e;
+            --card-bg: #1e1e1e;
+            --border: rgba(255,255,255,0.08);
+            --shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.25);
+            --glass: rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: var(--transition);
+            min-height: 100vh;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(72, 149, 239, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(247, 37, 133, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .app-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            background-color: var(--glass);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content { 
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(67, 97, 238, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .nav-back:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+            transform: translateX(-3px);
+        }
+
+        .nav-back:hover::before {
+            left: 100%;
+        }
+
+        .nav-back i {
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .app-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            margin: 0;
+            flex-grow: 1;
+            text-shadow: 0 0 10px rgba(67, 97, 238, 0.3);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Main Content */
+        .app-main {
+            flex: 1;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            padding-left: 3.5rem;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            appearance: none;
+            outline: none;
+            backdrop-filter: blur(10px);
+            background-color: var(--glass);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2), 0 10px 20px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus ~ .search-icon {
+            color: var(--accent);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none;
+        }
+
+        .category-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            transition: var(--transition);
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            background-color: var(--glass);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .filter-chip:hover::before {
+            transform: translateX(100%);
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Results Grid */
+        .results-container {
+            position: relative;
+            min-height: 300px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.75rem;
+            margin-top: 1rem;
+        }
+
+        /* Result Card */
+        .result-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            will-change: transform;
+            backdrop-filter: blur(10px);
+            background-color: var(--glass);
+        }
+
+        .result-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-light);
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .result-card:hover::before {
+            opacity: 1;
+        }
+
+        .result-media {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(67,97,238,0.1), rgba(247,37,133,0.1));
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .result-media {
+            background: linear-gradient(135deg, rgba(67,97,238,0.2), rgba(247,37,133,0.2));
+        }
+
+        .result-media img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .result-card:hover .result-media img {
+            transform: scale(1.08);
+        }
+
+        .result-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .result-card:hover .result-media video {
+            transform: scale(1.05);
+        }
+
+        .result-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .result-info {
+            padding: 1.25rem;
+        }
+
+        .result-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-title i {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .result-card:hover .result-title i {
+            color: var(--accent);
+            transform: rotate(10deg);
+        }
+
+        .result-type {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .empty-state p {
+            color: var(--text-light);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Loading State */
+        .loading-state {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg);
+            z-index: 10;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(67,97,238,0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            border-right-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            background-color: var(--glass);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            border-radius: 50%;
+            animation: float-particle 15s infinite linear;
+            opacity: 0.1;
+            filter: blur(1px);
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        /* Glow Effects */
+        .glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(67,97,238,0.2), transparent 70%);
+            filter: blur(30px);
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .app-header {
+                padding: 1rem;
+            }
+            
+            .app-main {
+                padding: 1.5rem;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-title {
+                font-size: 1.5rem;
+            }
+            
+            .search-input {
+                padding: 1.1rem 1.25rem;
+                padding-left: 3rem;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.25rem;
+            }
+            
+            .result-media {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                gap: 1rem;
+            }
+            
+            .nav-back span {
+                display: none;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-input {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+            opacity: 0;
+        }
+
+        .result-card:nth-child(1) { animation-delay: 0.1s; }
+        .result-card:nth-child(2) { animation-delay: 0.2s; }
+        .result-card:nth-child(3) { animation-delay: 0.3s; }
+        .result-card:nth-child(4) { animation-delay: 0.4s; }
+        .result-card:nth-child(5) { animation-delay: 0.5s; }
+        .result-card:nth-child(6) { animation-delay: 0.6s; }
+        .result-card:nth-child(7) { animation-delay: 0.7s; }
+        .result-card:nth-child(8) { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="glow" style="top: 20%; left: 10%;"></div>
+    <div class="glow" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
+    <div class="glow" style="top: 40%; left: 60%; animation-delay: 4s;"></div>
+    
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <a href="/dashboard" class="nav-back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
+                <h1 class="app-title">Sign Language Search</h1>
+                <div class="header-actions">
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="search-section">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for alphabets, words, or sentences..." autocomplete="off">
+                </div>
+                
+                <div class="category-filters">
+                    <div class="filter-chip active" data-category="all">All Content</div>
+                    <div class="filter-chip" data-category="alphabet">Alphabets</div>
+                    <div class="filter-chip" data-category="word">Common Words</div>
+                    <div class="filter-chip" data-category="sentence">Sentences</div>
+                </div>
+            </section>
+
+            <section class="results-container">
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <h3>Loading Sign Language Database</h3>
+                    <p>Preparing all available signs for you</p>
+                </div>
+                
+                <div class="results-grid" id="resultsContainer">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Sample data that matches your other pages
+        const signData = [
+            // Alphabet data (from alphabet.html)
+            { id: 'alphabet-a', type: 'alphabet', title: 'Letter A', image: 'assets/a.png', searchTerms: 'a alphabet letter' },
+            { id: 'alphabet-b', type: 'alphabet', title: 'Letter B', image: 'assets/b.png', searchTerms: 'b alphabet letter' },
+            { id: 'alphabet-c', type: 'alphabet', title: 'Letter C', image: 'assets/c.png', searchTerms: 'c alphabet letter' },
+            { id: 'alphabet-d', type: 'alphabet', title: 'Letter D', image: 'assets/d.png', searchTerms: 'd alphabet letter' },
+            { id: 'alphabet-e', type: 'alphabet', title: 'Letter E', image: 'assets/e.png', searchTerms: 'e alphabet letter' },
+            { id: 'alphabet-f', type: 'alphabet', title: 'Letter F', image: 'assets/f.png', searchTerms: 'f alphabet letter' },
+            { id: 'alphabet-g', type: 'alphabet', title: 'Letter G', image: 'assets/g.png', searchTerms: 'g alphabet letter' },
+            { id: 'alphabet-h', type: 'alphabet', title: 'Letter H', image: 'assets/h.png', searchTerms: 'h alphabet letter' },
+            { id: 'alphabet-i', type: 'alphabet', title: 'Letter I', image: 'assets/i.png', searchTerms: 'i alphabet letter' },
+            { id: 'alphabet-j', type: 'alphabet', title: 'Letter J', image: 'assets/j.png', searchTerms: 'j alphabet letter' },
+            { id: 'alphabet-k', type: 'alphabet', title: 'Letter K', image: 'assets/k.png', searchTerms: 'k alphabet letter' },
+            { id: 'alphabet-l', type: 'alphabet', title: 'Letter L', image: 'assets/l.png', searchTerms: 'l alphabet letter' },
+            { id: 'alphabet-m', type: 'alphabet', title: 'Letter M', image: 'assets/m.png', searchTerms: 'm alphabet letter' },
+            { id: 'alphabet-n', type: 'alphabet', title: 'Letter N', image: 'assets/n.png', searchTerms: 'n alphabet letter' },
+            { id: 'alphabet-o', type: 'alphabet', title: 'Letter O', image: 'assets/o.png', searchTerms: 'o alphabet letter' },
+            { id: 'alphabet-p', type: 'alphabet', title: 'Letter P', image: 'assets/p.png', searchTerms: 'p alphabet letter' },
+            { id: 'alphabet-q', type: 'alphabet', title: 'Letter Q', image: 'assets/q.png', searchTerms: 'q alphabet letter' },
+            { id: 'alphabet-r', type: 'alphabet', title: 'Letter R', image: 'assets/r.png', searchTerms: 'r alphabet letter' },
+            { id: 'alphabet-s', type: 'alphabet', title: 'Letter S', image: 'assets/s.png', searchTerms: 's alphabet letter' },
+            { id: 'alphabet-t', type: 'alphabet', title: 'Letter T', image: 'assets/t.png', searchTerms: 't alphabet letter' },
+            { id: 'alphabet-u', type: 'alphabet', title: 'Letter U', image: 'assets/u.png', searchTerms: 'u alphabet letter' },
+            { id: 'alphabet-v', type: 'alphabet', title: 'Letter V', image: 'assets/v.png', searchTerms: 'v alphabet letter' },
+            { id: 'alphabet-w', type: 'alphabet', title: 'Letter W', image: 'assets/w.png', searchTerms: 'w alphabet letter' },
+            { id: 'alphabet-x', type: 'alphabet', title: 'Letter X', image: 'assets/x.png', searchTerms: 'x alphabet letter' },
+            { id: 'alphabet-y', type: 'alphabet', title: 'Letter Y', image: 'assets/y.png', searchTerms: 'y alphabet letter' },
+            { id: 'alphabet-z', type: 'alphabet', title: 'Letter Z', image: 'assets/z.png', searchTerms: 'z alphabet letter' },
+            
+            // Words data (from words.html)
+            { id: 'word-hello', type: 'word', title: 'Hello', image: 'assets/hello.png', searchTerms: 'hello greeting' },
+            { id: 'word-goodbye', type: 'word', title: 'Goodbye', image: 'assets/goodbye.png', searchTerms: 'goodbye farewell' },
+            { id: 'word-please', type: 'word', title: 'Please', image: 'assets/please.png', searchTerms: 'please polite' },
+            { id: 'word-thankyou', type: 'word', title: 'Thank You', image: 'assets/thankyou.png', searchTerms: 'thank you thanks gratitude' },
+            { id: 'word-yes', type: 'word', title: 'Yes', image: 'assets/yes.png', searchTerms: 'yes affirmative' },
+            { id: 'word-no', type: 'word', title: 'No', image: 'assets/no.png', searchTerms: 'no negative' },
+            { id: 'word-help', type: 'word', title: 'Help', image: 'assets/help.png', searchTerms: 'help assistance' },
+            { id: 'word-eat', type: 'word', title: 'Eat', image: 'assets/eat.png', searchTerms: 'eat food consume' },
+            { id: 'word-drink', type: 'word', title: 'Drink', image: 'assets/drink.png', searchTerms: 'drink beverage' },
+            { id: 'word-more', type: 'word', title: 'More', image: 'assets/more.png', searchTerms: 'more additional' },
+            { id: 'word-finished', type: 'word', title: 'Finished', image: 'assets/finished.png', searchTerms: 'finished done complete' },
+            { id: 'word-bathroom', type: 'word', title: 'Bathroom', image: 'assets/bathroom.png', searchTerms: 'bathroom toilet restroom' },
+            { id: 'word-home', type: 'word', title: 'Home', image: 'assets/home.png', searchTerms: 'home house' },
+            { id: 'word-school', type: 'word', title: 'School', image: 'assets/school.png', searchTerms: 'school education' },
+            { id: 'word-work', type: 'word', title: 'Work', image: 'assets/work.png', searchTerms: 'work job' },
+            { id: 'word-friend', type: 'word', title: 'Friend', image: 'assets/friend.png', searchTerms: 'friend buddy' },
+            { id: 'word-family', type: 'word', title: 'Family', image: 'assets/family.png', searchTerms: 'family relatives' },
+            { id: 'word-love', type: 'word', title: 'Love', image: 'assets/love.png', searchTerms: 'love affection' },
+            { id: 'word-happy', type: 'word', title: 'Happy', image: 'assets/happy.png', searchTerms: 'happy joy' },
+            { id: 'word-sad', type: 'word', title: 'Sad', image: 'assets/sad.png', searchTerms: 'sad unhappy' },
+            { id: 'word-sorry', type: 'word', title: 'Sorry', image: 'assets/sorry.png', searchTerms: 'sorry apologize' },
+            { id: 'word-name', type: 'word', title: 'Name', image: 'assets/name.png', searchTerms: 'name identity' },
+            { id: 'word-time', type: 'word', title: 'Time', image: 'assets/time.png', searchTerms: 'time clock' },
+            { id: 'word-day', type: 'word', title: 'Day', image: 'assets/day.png', searchTerms: 'day daytime' },
+            { id: 'word-night', type: 'word', title: 'Night', image: 'assets/night.png', searchTerms: 'night nighttime' },
+            
+            // Sentences data (from sentences.html)
+            { id: 'sentence-how-are-you', type: 'sentence', title: 'How are you?', video: 'assets/how-are-you.mp4', searchTerms: 'how are you greeting' },
+            { id: 'sentence-what-name', type: 'sentence', title: "What's your name?", video: 'assets/what-name.mp4', searchTerms: "what's your name introduction" },
+            { id: 'sentence-my-name', type: 'sentence', title: "My name is...", video: 'assets/my-name.mp4', searchTerms: "my name is introduction" },
+            { id: 'sentence-nice-meet', type: 'sentence', title: "Nice to meet you", video: 'assets/nice-meet.mp4', searchTerms: "nice to meet you greeting" },
+            { id: 'sentence-how-old', type: 'sentence', title: "How old are you?", video: 'assets/how-old.mp4', searchTerms: "how old are you age" },
+            { id: 'sentence-i-love-you', type: 'sentence', title: "I love you", video: 'assets/i-love-you.mp4', searchTerms: "i love you affection" },
+            { id: 'sentence-where-bathroom', type: 'sentence', title: "Where is the bathroom?", video: 'assets/where-bathroom.mp4', searchTerms: "where is the bathroom toilet" },
+            { id: 'sentence-what-time', type: 'sentence', title: "What time is it?", video: 'assets/what-time.mp4', searchTerms: "what time is it clock" },
+            { id: 'sentence-hungry', type: 'sentence', title: "I'm hungry", video: 'assets/hungry.mp4', searchTerms: "i'm hungry food" },
+            { id: 'sentence-thirsty', type: 'sentence', title: "I'm thirsty", video: 'assets/thirsty.mp4', searchTerms: "i'm thirsty drink" },
+            { id: 'sentence-tired', type: 'sentence', title: "I'm tired", video: 'assets/tired.mp4', searchTerms: "i'm tired sleep" },
+            { id: 'sentence-happy-today', type: 'sentence', title: "I'm happy today", video: 'assets/happy-today.mp4', searchTerms: "i'm happy today emotion" },
+            { id: 'sentence-dont-understand', type: 'sentence', title: "I don't understand", video: 'assets/dont-understand.mp4', searchTerms: "i don't understand confused" },
+            { id: 'sentence-please-repeat', type: 'sentence', title: "Please repeat", video: 'assets/please-repeat.mp4', searchTerms: "please repeat again" },
+            { id: 'sentence-how-sign', type: 'sentence', title: "How do you sign...?", video: 'assets/how-sign.mp4', searchTerms: "how do you sign question" },
+            { id: 'sentence-where-work', type: 'sentence', title: "Where do you work?", video: 'assets/where-work.mp4', searchTerms: "where do you work job" },
+            { id: 'sentence-help-me', type: 'sentence', title: "Can you help me?", video: 'assets/help-me.mp4', searchTerms: "can you help me assistance" },
+            { id: 'sentence-sorry', type: 'sentence', title: "I'm sorry", video: 'assets/sorry.mp4', searchTerms: "i'm sorry apologize" },
+            { id: 'sentence-thank-you', type: 'sentence', title: "Thank you", video: 'assets/thank-you.mp4', searchTerms: "thank you thanks gratitude" }
+        ];
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const loadingState = document.getElementById('loadingState');
+        const filterChips = document.querySelectorAll('.filter-chip');
+        const themeToggle = document.querySelector('.theme-toggle');
+        const particlesContainer = document.getElementById('particles');
+
+        // Current filter state
+        let currentCategory = 'all';
+        let currentSearchTerm = '';
+        let isLoading = true;
+
+        // Create floating particles
+        function createParticles() {
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.bottom = '0';
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            themeToggle.innerHTML = document.body.dataset.theme === 'dark' 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+            
+            localStorage.setItem('theme', document.body.dataset.theme);
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))) {
+            document.body.dataset.theme = 'dark';
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Category filter
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentCategory = chip.dataset.category;
+                filterResults();
+                
+                // Add subtle animation to the chip
+                chip.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    chip.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Search functionality with debounce
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            currentSearchTerm = e.target.value.toLowerCase();
+            
+            // Show loading state for quick feedback
+            if (currentSearchTerm.length > 0 && !isLoading) {
+                resultsContainer.innerHTML = '';
+                loadingState.style.display = 'flex';
+            }
+            
+            searchTimeout = setTimeout(() => {
+                filterResults();
+            }, 300);
+        });
+
+        // Filter and display results
+        function filterResults() {
+            const filtered = signData.filter(item => {
+                const matchesCategory = currentCategory === 'all' || item.type === currentCategory;
+                const matchesSearch = currentSearchTerm === '' || 
+                    item.title.toLowerCase().includes(currentSearchTerm) || 
+                    (item.searchTerms && item.searchTerms.includes(currentSearchTerm));
+                
+                return matchesCategory && matchesSearch;
+            });
+
+            displayResults(filtered);
+        }
+
+        // Display results
+        function displayResults(results) {
+            loadingState.style.display = 'none';
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No results found</h3>
+                        <p>Try a different search term or select another category</p>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsContainer.innerHTML = results.map(item => `
+                <div class="result-card" data-id="${item.id}">
+                    <div class="result-media">
+                        ${item.video 
+                            ? `<video src="${item.video}" controls playsinline></video>`
+                            : `<img src="${item.image}" alt="${item.title}" loading="lazy">`
+                        }
+                        <span class="result-badge">${item.type}</span>
+                    </div>
+                    <div class="result-info">
+                        <h3 class="result-title">
+                            ${item.type === 'alphabet' ? '<i class="fas fa-font"></i>' : 
+                              item.type === 'word' ? '<i class="fas fa-spell-check"></i>' : 
+                              '<i class="fas fa-comment"></i>'}
+                            ${item.title}
+                        </h3>
+                        <p class="result-type">${item.type.charAt(0).toUpperCase() + item.type.slice(1)}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Initialize videos to show first frame
+            document.querySelectorAll('video').forEach(video => {
+                video.currentTime = 0.1;
+                video.pause();
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            setTimeout(() => {
+                isLoading = false;
+                filterResults();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

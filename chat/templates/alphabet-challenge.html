@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapid Alphabet Challenge | Sign Language Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --danger: #ff4757;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --glass-effect: rgba(255, 255, 255, 0.05);
+            --text-light: rgba(255, 255, 255, 0.9);
+            --text-lighter: rgba(255, 255, 255, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --radius: 16px;
+            --radius-xl: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(72, 149, 239, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(76, 201, 240, 0.2) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+        
+        h1 i {
+            margin-right: 0.8rem;
+            color: var(--accent);
+        }
+        
+        .game-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.3), rgba(58, 12, 163, 0.1));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .game-container:hover::before {
+            opacity: 1;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            gap: 1rem;
+        }
+        
+        .score-container, .timer-container {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            max-width: 48%;
+        }
+        
+        .score-container {
+            background: linear-gradient(90deg, rgba(67, 97, 238, 0.3), rgba(58, 12, 163, 0.15));
+        }
+        
+        .timer-container {
+            background: linear-gradient(90deg, rgba(247, 37, 133, 0.3), rgba(76, 201, 240, 0.15));
+        }
+        
+        .sign-display {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(247, 37, 133, 0.1));
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .sign-display {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.2), rgba(247, 37, 133, 0.2));
+        }
+        
+        .sign-image {
+            max-height: 80%;
+            max-width: 80%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        
+        .input-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text-light);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .hint-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-lighter);
+        }
+        
+        .feedback {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+        
+        .feedback.correct {
+            color: var(--success);
+        }
+        
+        .feedback.incorrect {
+            color: var(--danger);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--text-lighter);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-light);
+        }
+        
+        .game-over {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        
+        .game-over h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .final-score {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 3rem;
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Floating shapes animation */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            border-radius: 50%;
+            background: var(--success);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(720deg); }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .game-header {
+                flex-direction: column;
+            }
+            
+            .score-container, .timer-container {
+                max-width: 100%;
+            }
+            
+            .sign-display {
+                height: 250px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape" style="width: 150px; height: 150px; top: 10%; left: 5%; animation-duration: 20s;"></div>
+        <div class="shape" style="width: 100px; height: 100px; top: 70%; left: 80%; animation-duration: 15s;"></div>
+        <div class="shape" style="width: 200px; height: 200px; top: 60%; left: 30%; animation-duration: 25s;"></div>
+    </div>
+
+    <div class="container fade-in">
+        <a href="/practice" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Practice
+        </a>
+        
+        <h1><i class="fas fa-stopwatch"></i> Rapid Alphabet Challenge</h1>
+        
+        <div class="game-container">
+            <div class="game-header">
+                <div class="score-container">
+                    <i class="fas fa-star"></i> Score: <span id="score">0</span>
+                </div>
+                <div class="timer-container">
+                    <i class="fas fa-clock"></i> Time: <span id="time">60</span>s
+                </div>
+            </div>
+            
+            <div class="sign-display">
+                <img id="signImage" class="sign-image" src="" alt="Sign language letter">
+            </div>
+            
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="input-container">
+                <input type="text" id="answerInput" class="answer-input" placeholder="Type the letter..." autocomplete="off">
+                <p class="hint-text">Press Enter to submit your answer</p>
+            </div>
+            
+            <div class="controls">
+                <button id="skipBtn" class="btn btn-outline">
+                    <i class="fas fa-forward"></i> Skip
+                </button>
+                <button id="startBtn" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Game
+                </button>
+            </div>
+            
+            <div class="game-over" id="gameOver">
+                <h2>Game Over!</h2>
+                <div class="final-score">
+                    Your score: <span id="finalScore">0</span>
+                </div>
+                <button id="restartBtn" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game data - letters and their corresponding image paths
+        const alphabetData = [
+            { letter: 'A', image: 'assets/a.png' },
+            { letter: 'B', image: 'assets/b.png' },
+            { letter: 'C', image: 'assets/c.png' },
+            { letter: 'D', image: 'assets/d.png' },
+            { letter: 'E', image: 'assets/e.png' },
+            { letter: 'F', image: 'assets/f.png' },
+            { letter: 'G', image: 'assets/g.png' },
+            { letter: 'H', image: 'assets/h.png' },
+            { letter: 'I', image: 'assets/i.png' },
+            { letter: 'J', image: 'assets/j.png' },
+            { letter: 'K', image: 'assets/k.png' },
+            { letter: 'L', image: 'assets/l.png' },
+            { letter: 'M', image: 'assets/m.png' },
+            { letter: 'N', image: 'assets/n.png' },
+            { letter: 'O', image: 'assets/o.png' },
+            { letter: 'P', image: 'assets/p.png' },
+            { letter: 'Q', image: 'assets/q.png' },
+            { letter: 'R', image: 'assets/r.png' },
+            { letter: 'S', image: 'assets/s.png' },
+            { letter: 'T', image: 'assets/t.png' },
+            { letter: 'U', image: 'assets/u.png' },
+            { letter: 'V', image: 'assets/v.png' },
+            { letter: 'W', image: 'assets/w.png' },
+            { letter: 'X', image: 'assets/x.png' },
+            { letter: 'Y', image: 'assets/y.png' },
+            { letter: 'Z', image: 'assets/z.png' }
+        ];
+
+        // DOM elements
+        const signImage = document.getElementById('signImage');
+        const answerInput = document.getElementById('answerInput');
+        const feedback = document.getElementById('feedback');
+        const scoreElement = document.getElementById('score');
+        const timeElement = document.getElementById('time');
+        const startBtn = document.getElementById('startBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const gameOverScreen = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // Game variables
+        let currentSign = null;
+        let score = 0;
+        let timeLeft = 60;
+        let timer = null;
+        let gameActive = false;
+
+        // Initialize the game
+        function initGame() {
+            score = 0;
+            timeLeft = 60;
+            gameActive = true;
+            scoreElement.textContent = score;
+            timeElement.textContent = timeLeft;
+            gameOverScreen.style.display = 'none';
+            startBtn.style.display = 'none';
+            skipBtn.style.display = 'inline-flex';
+            answerInput.disabled = false;
+            answerInput.focus();
+            
+            // Start timer
+            timer = setInterval(updateTimer, 1000);
+            
+            // Show first sign
+            showRandomSign();
+        }
+
+        // Show a random sign
+        function showRandomSign() {
+            const randomIndex = Math.floor(Math.random() * alphabetData.length);
+            currentSign = alphabetData[randomIndex];
+            signImage.src = currentSign.image;
+            signImage.alt = `Sign for letter ${currentSign.letter}`;
+            answerInput.value = '';
+            feedback.textContent = '';
+            feedback.className = 'feedback';
+        }
+
+        // Check the user's answer
+        function checkAnswer() {
+            if (!gameActive) return;
+            
+            const userAnswer = answerInput.value.trim().toUpperCase();
+            
+            if (userAnswer === currentSign.letter) {
+                // Correct answer
+                score += 10;
+                scoreElement.textContent = score;
+                feedback.textContent = 'Correct! +10 points';
+                feedback.className = 'feedback correct';
+                signImage.classList.add('pulse');
+                setTimeout(() => signImage.classList.remove('pulse'), 500);
+            } else {
+                // Incorrect answer
+                feedback.textContent = `Incorrect! The answer was ${currentSign.letter}`;
+                feedback.className = 'feedback incorrect';
+            }
+            
+            // Show next sign after a brief delay
+            setTimeout(showRandomSign, 1500);
+        }
+
+        // Update the timer
+        function updateTimer() {
+            timeLeft--;
+            timeElement.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        // End the game
+        function endGame() {
+            clearInterval(timer);
+            gameActive = false;
+            finalScoreElement.textContent = score;
+            gameOverScreen.style.display = 'flex';
+            answerInput.disabled = true;
+            startBtn.style.display = 'inline-flex';
+            skipBtn.style.display = 'none';
+        }
+
+        // Skip the current sign
+        function skipSign() {
+            if (!gameActive) return;
+            feedback.textContent = `Skipped! The answer was ${currentSign.letter}`;
+            feedback.className = 'feedback';
+            setTimeout(showRandomSign, 1000);
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', initGame);
+        restartBtn.addEventListener('click', initGame);
+        skipBtn.addEventListener('click', skipSign);
+        
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && gameActive) {
+                checkAnswer();
+            }
+        });
+
+        // Initialize with a disabled input
+        answerInput.disabled = true;
+        skipBtn.style.display = 'none';
+    </script>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Words | Sign Language Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4cc9f0;
+      --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7ff;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .back-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      margin-right: 1.5rem;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .back-button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    
+    .search-container {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: var(--transition);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 4px 20px rgba(67, 97, 238, 0.2);
+    }
+    
+    .filter-buttons {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .words-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    
+    .sign-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .sign-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .sign-card-image {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .sign-card-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sign-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .sign-card p {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      flex: 1;
+    }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+    
+    .word-type {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      background-color: #e9ecef;
+      color: var(--dark);
+    }
+    
+    .noun {
+      background-color: #d0ebff;
+      color: #1c7ed6;
+    }
+    
+    .verb {
+      background-color: #fff3bf;
+      color: #f08c00;
+    }
+    
+    .expression {
+      background-color: #d3f9d8;
+      color: #2b8a3e;
+    }
+    
+    .favorite-btn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--gray);
+      transition: var(--transition);
+    }
+    
+    .favorite-btn:hover, .favorite-btn.active {
+      color: #ff4757;
+    }
+    
+    .difficulty-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--light);
+    }
+    
+    .beginner {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .intermediate {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .advanced {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .words-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .search-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="/learn" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Common Words</h1>
+    </header>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search words...">
+      <button class="filter-btn active" id="search-btn">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+
+    <div class="filter-buttons">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Greetings</button>
+      <button class="filter-btn">Nouns</button>
+      <button class="filter-btn">Verbs</button>
+      <button class="filter-btn">Expressions</button>
+    </div>
+
+    <main class="words-grid">
+      <!-- Complete list of all 25 words -->
+      <div class="sign-card">
+        <img class="sign-card-image" src="/templates/assets/hello.png" alt="Sign for Hello">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Hello</h3>
+          <p>A universal greeting used when meeting someone</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/goodbye.png" alt="Sign for Goodbye">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Goodbye</h3>
+          <p>Used when parting from someone</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/please.png" alt="Sign for Please">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Please</h3>
+          <p>Polite expression used when making a request</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/thankyou.png" alt="Sign for Thank You">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Thank You</h3>
+          <p>Expression of gratitude</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn active">
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/yes.png" alt="Sign for Yes">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Yes</h3>
+          <p>Affirmative response</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/no.png" alt="Sign for No">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>No</h3>
+          <p>Negative response</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/help.png" alt="Sign for Help">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Help</h3>
+          <p>Request for assistance</p>
+          <div class="card-footer">
+            <span class="word-type verb">Verb</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/eat.png" alt="Sign for Eat">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Eat</h3>
+          <p>To consume food</p>
+          <div class="card-footer">
+            <span class="word-type verb">Verb</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/drink.png" alt="Sign for Drink">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Drink</h3>
+          <p>To consume liquid</p>
+          <div class="card-footer">
+            <span class="word-type verb">Verb</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/more.png" alt="Sign for More">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>More</h3>
+          <p>Additional quantity or degree</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/finished.png" alt="Sign for Finished">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Finished</h3>
+          <p>Completed or concluded</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/bathroom.png" alt="Sign for Bathroom">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Bathroom</h3>
+          <p>A room containing a toilet and sink</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/home.png" alt="Sign for Home">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Home</h3>
+          <p>Place where one lives</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/school.png" alt="Sign for School">
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>School</h3>
+          <p>Institution for education</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/work.png" alt="Sign for Work">
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>Work</h3>
+          <p>Activity involving mental or physical effort</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/friend.png" alt="Sign for Friend">
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>Friend</h3>
+          <p>Person whom one knows and trusts</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/family.png" alt="Sign for Family">
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>Family</h3>
+          <p>Group of related people</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/love.png" alt="Sign for Love">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Love</h3>
+          <p>Strong affection</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn active">
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/happy.png" alt="Sign for Happy">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Happy</h3>
+          <p>Feeling pleasure or contentment</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/sad.png" alt="Sign for Sad">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Sad</h3>
+          <p>Feeling sorrow</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/sorry.png" alt="Sign for Sorry">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Sorry</h3>
+          <p>Expression of regret</p>
+          <div class="card-footer">
+            <span class="word-type expression">Expression</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/name.png" alt="Sign for Name">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Name</h3>
+          <p>Word by which someone is known</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/time.png" alt="Sign for Time">
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>Time</h3>
+          <p>Measured progress of existence</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/day.png" alt="Sign for Day">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Day</h3>
+          <p>24-hour period</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <img class="sign-card-image" src="assets/night.png" alt="Sign for Night">
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Night</h3>
+          <p>Period of darkness</p>
+          <div class="card-footer">
+            <span class="word-type noun">Noun</span>
+            <button class="favorite-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Toggle favorite buttons
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const icon = this.querySelector('i');
+        if (this.classList.contains('active')) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+        }
+      });
+    });
+
+    // Filter buttons functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.id === 'search-btn') return;
+        
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          if (b.id !== 'search-btn') b.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+
+    // Search functionality
+    document.getElementById('search-btn').addEventListener('click', function() {
+      const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+      const cards = document.querySelectorAll('.sign-card');
+      let hasResults = false;
+      
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+          card.style.display = 'flex';
+          hasResults = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show "no results" message if needed
+      const noResults = document.querySelector('.no-results');
+      if (!noResults && !hasResults) {
+        const grid = document.querySelector('.words-grid');
+        const message = document.createElement('div');
+        message.className = 'no-results';
+        message.innerHTML = '<h3>No results found</h3><p>Try a different search term</p>';
+        grid.appendChild(message);
+      } else if (noResults && hasResults) {
+        noResults.remove();
+      }
+    });
+
+    // Allow search on Enter key
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('search-btn').click();
+      }
+    });
+  </script>
+</body>
+</html>

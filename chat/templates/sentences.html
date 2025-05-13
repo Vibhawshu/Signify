@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Sentences | Sign Language Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4cc9f0;
+      --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7ff;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .back-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      margin-right: 1.5rem;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .back-button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    
+    .search-container {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: var(--transition);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 4px 20px rgba(67, 97, 238, 0.2);
+    }
+    
+    .filter-buttons {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .sentences-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .sign-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .sign-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .sign-card video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid #eee;
+      display: block;
+    }
+    
+    .sign-card-content {
+      padding: 1.5rem;
+    }
+    
+    .sign-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .sign-card p {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+    
+    .play-btn, .favorite-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .play-btn {
+      background-color: var(--primary);
+      color: white;
+      flex: 1;
+    }
+    
+    .play-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .favorite-btn {
+      background-color: transparent;
+      color: var(--gray);
+      border: 1px solid #e0e0e0;
+    }
+    
+    .favorite-btn:hover, .favorite-btn.active {
+      color: #ff4757;
+      border-color: #ff4757;
+    }
+    
+    .difficulty-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--light);
+    }
+    
+    .beginner {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .intermediate {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .advanced {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .favorite-icon {
+      color: inherit;
+    }
+    
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .sentences-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .search-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="/learn" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Common Sentences</h1>
+    </header>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search sentences...">
+      <button class="play-btn" id="search-btn">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+
+    <div class="filter-buttons">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Greetings</button>
+      <button class="filter-btn">Questions</button>
+      <button class="filter-btn">Expressions</button>
+      <button class="filter-btn">Needs</button>
+    </div>
+
+    <main class="sentences-grid">
+      <!-- All 19 sentences from original file -->
+      <div class="sign-card">
+        <video id="video1" src="assets/how-are-you.mp4" poster="how-are-you-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>How are you?</h3>
+          <p>A common greeting to ask about someone's well-being</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video1')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video2" src="assets/what-name.mp4" poster="what-name-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>What's your name?</h3>
+          <p>Ask someone for their name in sign language</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video2')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video3" src="assets/my-name.mp4" poster="my-name-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>My name is...</h3>
+          <p>Introduce yourself in sign language</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video3')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video4" src="assets/nice-meet.mp4" poster="nice-meet-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Nice to meet you</h3>
+          <p>Politely greet someone you're meeting for the first time</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video4')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video5" src="assets/how-old.mp4" poster="how-old-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>How old are you?</h3>
+          <p>Ask someone about their age</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video5')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video6" src="assets/i-love-you.mp4" poster="i-love-you-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>I love you</h3>
+          <p>A universal sign of affection</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video6')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn active">
+              <i class="fas fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video7" src="assets/where-bathroom.mp4" poster="where-bathroom-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>Where is the bathroom?</h3>
+          <p>An essential question in any language</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video7')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video8" src="assets/what-time.mp4" poster="what-time-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>What time is it?</h3>
+          <p>Ask for the current time</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video8')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video9" src="assets/hungry.mp4" poster="hungry-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>I'm hungry</h3>
+          <p>Express that you need food</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video9')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video10" src="assets/thirsty.mp4" poster="thirsty-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>I'm thirsty</h3>
+          <p>Express that you need something to drink</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video10')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video11" src="assets/tired.mp4" poster="tired-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>I'm tired</h3>
+          <p>Express that you need rest</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video11')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video12" src="assets/happy-today.mp4" poster="happy-today-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>I'm happy today</h3>
+          <p>Express your current emotional state</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video12')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video13" src="assets/dont-understand.mp4" poster="dont-understand-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>I don't understand</h3>
+          <p>Express confusion or lack of comprehension</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video13')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video14" src="assets/please-repeat.mp4" poster="please-repeat-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Please repeat</h3>
+          <p>Politely ask someone to say something again</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video14')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video15" src="assets/how-sign.mp4" poster="how-sign-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>How do you sign...?</h3>
+          <p>Ask how to express a specific word or concept</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video15')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video16" src="assets/where-work.mp4" poster="where-work-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge intermediate">Intermediate</span>
+        <div class="sign-card-content">
+          <h3>Where do you work?</h3>
+          <p>Ask about someone's workplace</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video16')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video17" src="assets/help-me.mp4" poster="help-me-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Can you help me?</h3>
+          <p>Request assistance from someone</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video17')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video18" src="assets/sorry.mp4" poster="sorry-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>I'm sorry</h3>
+          <p>Express regret or apologize</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video18')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sign-card">
+        <video id="video19" src="assets/thank-you.mp4" poster="thank-you-poster.jpg" preload="metadata" muted></video>
+        <span class="difficulty-badge beginner">Beginner</span>
+        <div class="sign-card-content">
+          <h3>Thank you</h3>
+          <p>Express gratitude</p>
+          <div class="card-actions">
+            <button class="play-btn" onclick="toggleVideo('video19')">
+              <i class="fas fa-play"></i> Play
+            </button>
+            <button class="favorite-btn">
+              <i class="far fa-heart favorite-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize all videos to show first frame
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('video').forEach(video => {
+        video.currentTime = 0.1; // Small offset to ensure first frame shows
+        video.pause();
+      });
+    });
+
+    function toggleVideo(videoId) {
+      const video = document.getElementById(videoId);
+      const playBtn = video.closest('.sign-card').querySelector('.play-btn');
+      
+      // Pause all other videos
+      document.querySelectorAll('video').forEach(v => {
+        if (v.id !== videoId) {
+          v.pause();
+          const otherBtn = v.closest('.sign-card').querySelector('.play-btn');
+          otherBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+        }
+      });
+
+      if (video.paused) {
+        video.play();
+        playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+      } else {
+        video.pause();
+        playBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+      }
+    }
+
+    // Toggle favorite buttons
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const icon = this.querySelector('.favorite-icon');
+        if (this.classList.contains('active')) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+        }
+      });
+    });
+
+    // Filter buttons functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        // Here you would implement actual filtering logic
+      });
+    });
+
+    // Search functionality
+    document.getElementById('search-btn').addEventListener('click', function() {
+      const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+      const cards = document.querySelectorAll('.sign-card');
+      let hasResults = false;
+      
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+          card.style.display = 'block';
+          hasResults = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show "no results" message if needed
+      const noResults = document.querySelector('.no-results');
+      if (!noResults && !hasResults) {
+        const grid = document.querySelector('.sentences-grid');
+        const message = document.createElement('div');
+        message.className = 'no-results';
+        message.innerHTML = '<h3>No results found</h3><p>Try a different search term</p>';
+        grid.appendChild(message);
+      } else if (noResults && hasResults) {
+        noResults.remove();
+      }
+    });
+  </script>
+</body>
+</html>

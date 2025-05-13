@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alphabet Signs | Sign Language Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4cc9f0;
+      --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7ff;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .back-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      margin-right: 1.5rem;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .back-button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    
+    .search-container {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: var(--transition);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 4px 20px rgba(67, 97, 238, 0.2);
+    }
+    
+    .filter-buttons {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .alphabet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .sign-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .sign-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .sign-card-image {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+    }
+    
+    .sign-card:hover .sign-card-image {
+      transform: scale(1.05);
+    }
+    
+    .letter-display {
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .sign-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .sign-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .practice-btn {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: var(--transition);
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .practice-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .favorite-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--gray);
+      transition: var(--transition);
+    }
+    
+    .favorite-btn:hover, .favorite-btn.active {
+      color: #ff4757;
+    }
+    
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .alphabet-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .search-container {
+        flex-direction: column;
+      }
+      
+      .sign-card-image {
+        width: 100px;
+        height: 100px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .alphabet-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+      
+      .letter-display {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="/learn" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Alphabet Signs</h1>
+    </header>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search letters...">
+      <button class="filter-btn active" id="search-btn">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+
+    <div class="filter-buttons">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Vowels</button>
+      <button class="filter-btn">Consonants</button>
+      <button class="filter-btn">Favorites</button>
+    </div>
+
+    <main class="alphabet-grid">
+      <!-- A to Z Alphabet Signs -->
+      <div class="sign-card">
+        <div class="letter-display">A</div>
+        <img class="sign-card-image" src="assets/a.png" alt="Sign for A">
+        <h3>Letter A</h3>
+        <p>First letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">B</div>
+        <img class="sign-card-image" src="assets/b.png" alt="Sign for B">
+        <h3>Letter B</h3>
+        <p>Second letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">C</div>
+        <img class="sign-card-image" src="assets/c.png" alt="Sign for C">
+        <h3>Letter C</h3>
+        <p>Third letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">D</div>
+        <img class="sign-card-image" src="assets/d.png" alt="Sign for D">
+        <h3>Letter D</h3>
+        <p>Fourth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">E</div>
+        <img class="sign-card-image" src="assets/e.png" alt="Sign for E">
+        <h3>Letter E</h3>
+        <p>Fifth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn active">
+          <i class="fas fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">F</div>
+        <img class="sign-card-image" src="assets/f.png" alt="Sign for F">
+        <h3>Letter F</h3>
+        <p>Sixth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">G</div>
+        <img class="sign-card-image" src="assets/g.png" alt="Sign for G">
+        <h3>Letter G</h3>
+        <p>Seventh letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">H</div>
+        <img class="sign-card-image" src="assets/h.png" alt="Sign for H">
+        <h3>Letter H</h3>
+        <p>Eighth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">I</div>
+        <img class="sign-card-image" src="assets/i.png" alt="Sign for I">
+        <h3>Letter I</h3>
+        <p>Ninth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">J</div>
+        <img class="sign-card-image" src="assets/j.png" alt="Sign for J">
+        <h3>Letter J</h3>
+        <p>Tenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">K</div>
+        <img class="sign-card-image" src="assets/k.png" alt="Sign for K">
+        <h3>Letter K</h3>
+        <p>Eleventh letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">L</div>
+        <img class="sign-card-image" src="assets/l.png" alt="Sign for L">
+        <h3>Letter L</h3>
+        <p>Twelfth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">M</div>
+        <img class="sign-card-image" src="assets/m.png" alt="Sign for M">
+        <h3>Letter M</h3>
+        <p>Thirteenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">N</div>
+        <img class="sign-card-image" src="assets/n.png" alt="Sign for N">
+        <h3>Letter N</h3>
+        <p>Fourteenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">O</div>
+        <img class="sign-card-image" src="assets/o.png" alt="Sign for O">
+        <h3>Letter O</h3>
+        <p>Fifteenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">P</div>
+        <img class="sign-card-image" src="assets/p.png" alt="Sign for P">
+        <h3>Letter P</h3>
+        <p>Sixteenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">Q</div>
+        <img class="sign-card-image" src="assets/q.png" alt="Sign for Q">
+        <h3>Letter Q</h3>
+        <p>Seventeenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">R</div>
+        <img class="sign-card-image" src="assets/r.png" alt="Sign for R">
+        <h3>Letter R</h3>
+        <p>Eighteenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">S</div>
+        <img class="sign-card-image" src="assets/s.png" alt="Sign for S">
+        <h3>Letter S</h3>
+        <p>Nineteenth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">T</div>
+        <img class="sign-card-image" src="assets/t.png" alt="Sign for T">
+        <h3>Letter T</h3>
+        <p>Twentieth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">U</div>
+        <img class="sign-card-image" src="assets/u.png" alt="Sign for U">
+        <h3>Letter U</h3>
+        <p>Twenty-first letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">V</div>
+        <img class="sign-card-image" src="assets/v.png" alt="Sign for V">
+        <h3>Letter V</h3>
+        <p>Twenty-second letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">W</div>
+        <img class="sign-card-image" src="assets/w.png" alt="Sign for W">
+        <h3>Letter W</h3>
+        <p>Twenty-third letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">X</div>
+        <img class="sign-card-image" src="assets/x.png" alt="Sign for X">
+        <h3>Letter X</h3>
+        <p>Twenty-fourth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">Y</div>
+        <img class="sign-card-image" src="assets/y.png" alt="Sign for Y">
+        <h3>Letter Y</h3>
+        <p>Twenty-fifth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+
+      <div class="sign-card">
+        <div class="letter-display">Z</div>
+        <img class="sign-card-image" src="assets/z.png" alt="Sign for Z">
+        <h3>Letter Z</h3>
+        <p>Twenty-sixth letter of the alphabet</p>
+        <button class="practice-btn">
+          <i class="fas fa-hand-paper"></i> Practice
+        </button>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Toggle favorite buttons
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const icon = this.querySelector('i');
+        if (this.classList.contains('active')) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+        }
+      });
+    });
+
+    // Filter buttons functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.id === 'search-btn') return;
+        
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          if (b.id !== 'search-btn') b.classList.remove('active');
+        });
+        this.classList.add('active');
+        
+        // Here you would implement actual filtering logic
+        const filter = this.textContent.trim();
+        const cards = document.querySelectorAll('.sign-card');
+        
+        if (filter === 'All') {
+          cards.forEach(card => card.style.display = 'flex');
+        } else if (filter === 'Vowels') {
+          cards.forEach(card => {
+            const letter = card.querySelector('.letter-display').textContent;
+            card.style.display = ['A','E','I','O','U'].includes(letter) ? 'flex' : 'none';
+          });
+        } else if (filter === 'Consonants') {
+          cards.forEach(card => {
+            const letter = card.querySelector('.letter-display').textContent;
+            card.style.display = !['A','E','I','O','U'].includes(letter) ? 'flex' : 'none';
+          });
+        } else if (filter === 'Favorites') {
+          cards.forEach(card => {
+            const isFavorite = card.querySelector('.favorite-btn').classList.contains('active');
+            card.style.display = isFavorite ? 'flex' : 'none';
+          });
+        }
+      });
+    });
+
+    // Search functionality
+    document.getElementById('search-btn').addEventListener('click', function() {
+      const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+      const cards = document.querySelectorAll('.sign-card');
+      let hasResults = false;
+      
+      cards.forEach(card => {
+        const letter = card.querySelector('.letter-display').textContent.toLowerCase();
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        
+        if (letter.includes(searchTerm) || title.includes(searchTerm)) {
+          card.style.display = 'flex';
+          hasResults = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show "no results" message if needed
+      const noResults = document.querySelector('.no-results');
+      if (!noResults && !hasResults) {
+        const grid = document.querySelector('.alphabet-grid');
+        const message = document.createElement('div');
+        message.className = 'no-results';
+        message.innerHTML = '<h3>No results found</h3><p>Try a different search term</p>';
+        grid.appendChild(message);
+      } else if (noResults && hasResults) {
+        noResults.remove();
+      }
+    });
+
+    // Allow search on Enter key
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('search-btn').click();
+      }
+    });
+
+    // Practice button functionality
+    document.querySelectorAll('.practice-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = this.closest('.sign-card');
+        const letter = card.querySelector('.letter-display').textContent;
+        alert(`Practice mode activated for letter ${letter}. This would launch a hands-on practice session in a full implementation.`);
+      });
+    });
+  </script>
+</body>
+</html>
